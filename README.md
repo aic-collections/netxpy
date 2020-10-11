@@ -3,7 +3,7 @@
 `netxpy` is a pythonic wrapper for the [NetX API](https://kb.netx.net/kb/developer-tools/json-rpc-api). 
 It offers a few additional enhancements over the official API and, for better or 
 for worse, some simplifications.  Enhancements include, but are 
-not necessary limited to: raw search (and raw resutls, if desired) against NetX's 
+not necessary limited to: raw search (and raw results, if desired) against NetX's 
 internal API, the one that its HTML web service uses.  This has the benefit of 
 permitting you to search an Assets system properties/attributes, for example.  It is
 also possible to retrieve the formatted raw search results, which provide a more pythonic
@@ -72,7 +72,7 @@ If you'd like to download and install the latest source you'll need git:
 
 ### Developing
 
-Unit tests are included.  You'll need [setuptools](https://pypi.python.org/pypi/setuptools#installation-instructions). 
+(Some) Unit tests are included.  You'll need [setuptools](https://pypi.python.org/pypi/setuptools#installation-instructions). 
 Once you have the source and setuptools run the netxpy test:
 
     python setup.py test
