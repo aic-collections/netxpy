@@ -4,13 +4,17 @@ class SearchMethods():
         self.netxconn = netxconn
         return
     
-    def get_assets_by_query(self, query):
+    def get_assets_by_query(self, query, start=0, count=101):
         context = {
             'method': 'getAssetsByQuery',
             'params': [
                 self.netxconn.session_key, 
                 {"query": query},
                 {
+                    "page": {
+                        "startIndex": start,
+                        "size": count
+                    },
                     "data": [
                         "asset.id",
                         "asset.attributes",
