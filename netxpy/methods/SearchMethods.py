@@ -33,19 +33,48 @@ class SearchMethods():
     # This is basically a raw solr search
     def raw_search(self, query_str, start=1, count=101):
         ["sw6wqNxAlM2B87iepfR4EhXS6","fileName",0,0,[8],[4],[0],["modDate:[20200927170000 TO 20200927999999]"],[""],[""],1,41,[],"hybrid"]
+        # AND search:
+        ["7clgbZKDJdk66qg49SYVaPwnw","file",0,0,[8,8],[4,4],[0,0],["modDate:[20201004110000 TO 20201004110800]","Publish status:No"],["",""],["",""],1,41,[],"hybrid"]
+        # OR search:
+        ["7clgbZKDJdk66qg49SYVaPwnw","file",0,1,[8,8],[4,4],[0,0],["modDate:[20201004110000 TO 20201004110800]","Publish status:Web"],["",""],["",""],1,41,[],"hybrid"]
+        
+        query = []
+        and_or = 0
+        if (" AND " not in query_str and " OR " not in query_str):
+            terms = [query_str]
+        elif (" AND " in query_str):
+            and_or = 1
+            terms = query_str.split(" AND ")
+        elif (" OR " in query_str):
+            and_or = 1
+            terms = query_str.split(" OR ")
+        
+        search_type = []
+        something_else = []
+        whatever_this_is = []
+        and_whatever_this_is = []
+        and_then_there_is_this_thing = []
+        for t in terms:
+            search_type.append(8)
+            something_else.append(4)
+            whatever_this_is.append("")
+            and_whatever_this_is.append("")
+            and_then_there_is_this_thing.append(0)
+            query.append(t)
+        
         context = {
             'method': 'facetedSearch',
             'params': [
                 self.netxconn.session_key, 
-                "fileName", # Order by, more or less
+                "file", # Order by, more or less
                 0,
-                0,
-                [8],
-                [4],
-                [0],
-                [query_str],
-                [""],
-                [""],
+                and_or, # AND=0, OR=1
+                search_type, # 8 is advanced
+                something_else,
+                and_then_there_is_this_thing,
+                query,
+                whatever_this_is,
+                and_whatever_this_is,
                 start, # Start
                 count, # Count
                 [],
