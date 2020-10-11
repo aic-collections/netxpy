@@ -30,7 +30,7 @@ class SearchMethods():
         }
         return self.netxconn.execute(context)
         
-    # This is basically a raw solr search
+    # This searches Solr fields and attributes.
     def raw_search(self, query_str, start=1, count=101):
         ["sw6wqNxAlM2B87iepfR4EhXS6","fileName",0,0,[8],[4],[0],["modDate:[20200927170000 TO 20200927999999]"],[""],[""],1,41,[],"hybrid"]
         # AND search:
