@@ -1,0 +1,7 @@
+*.pyc
+netxpy.egg-info
+build
+dist
+test/*.json
+
+tests
