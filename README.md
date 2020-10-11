@@ -16,25 +16,25 @@ this library will be expanded.
 ### Methods
 
 The NetX API methods currently supported:
-    Folders
-        getFoldersByParent = `get_folders_by_parent(parent_id)`
-        getFoldersByNameFilter = `get_folders_by_name_filter(name_filter)`
-        getFolderByPath = `get_folder_by_path(netx_folder_path)`
-        createFolderFromPath = `create_folder_from_path(netx_folder_path)`
-    Assets
-        getAssetAttributes = `get_asset_attributes(asset_id)`
-    Search
-        Note: `query` is a query object as defined by NetX.  See [https://kb.netx.net/kb/developer-tools/json-rpc-api#getAssetsByQuery](https://kb.netx.net/kb/developer-tools/json-rpc-api#getAssetsByQuery)
-        getAssetsByQuery = `get_assets_by_query(query[, start[, count]])`
+- Folders
+    - getFoldersByParent = `get_folders_by_parent(parent_id)`
+    - getFoldersByNameFilter = `get_folders_by_name_filter(name_filter)`
+    - getFolderByPath = `get_folder_by_path(netx_folder_path)`
+    - createFolderFromPath = `create_folder_from_path(netx_folder_path)`
+- Assets
+    - getAssetAttributes = `get_asset_attributes(asset_id)`
+- Search
+    - Note: `query` is a query object as defined by NetX.  See [https://kb.netx.net/kb/developer-tools/json-rpc-api#getAssetsByQuery](https://kb.netx.net/kb/developer-tools/json-rpc-api#getAssetsByQuery)
+    - getAssetsByQuery = `get_assets_by_query(query[, start[, count]])`
     
 Additional methods:
-    Assets
-        `get_asset(asset_id)`
-    Search
-        `raw_search(query_str[, start[, count]])`: This will return the 
+- Assets
+    - `get_asset(asset_id)`
+- Search
+    - `raw_search(query_str[, start[, count]])`: This will return the 
             raw results from NetX's internal search API.  It is possible to search 
             system properties with this search.
-        `search(query_str[, start[, count]])`: This will return the 
+    - `search(query_str[, start[, count]])`: This will return the 
             better formatted results from NetX's internal search API.  It is possible to search 
             system properties with this search.
 
@@ -46,7 +46,6 @@ import json
 from netxpy.NetXAPI import NetXAPI
 
 config = {
-        "netx_": "https://netxtest.artic.edu",
         "netx": "https://netx.host",
         "user": "user",
         "pass": "pass"
