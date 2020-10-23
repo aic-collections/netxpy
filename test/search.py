@@ -22,3 +22,19 @@ class SearchTestCase(unittest.TestCase):
     def test_raw_search(self):
         results = self.netxapi.raw_search('assetId:362741')
         self.assertEqual(results["results"][0]["assetId"], 362741)
+        
+    def test_get_assets_by_query_date_range(self):
+        query = [
+            {
+                "operator": "and",
+                "range": {
+                    "field": "importDate",
+                    "min": "2020-07-20T22:23:20",
+                    "max": "2020-07-20T22:23:40",
+                    "includeMin": True,
+                    "includeMax": True
+                }
+            }
+        ]
+        results = self.netxapi.get_assets_by_query(query)
+        self.assertGreater(results["size"], 10)

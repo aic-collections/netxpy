@@ -1,10 +1,36 @@
+import re
+import datetime
+
 class SearchMethods():
     
     def __init__(self, netxconn):
+        self.isoDateRegex = r'^([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})$'
+        self.isoDateCompiled = re.compile(self.isoDateRegex)
         self.netxconn = netxconn
         return
     
-    def get_assets_by_query(self, query, start=0, count=101):
+    def get_assets_by_query(self, query, complete=False, start=0, count=101):
+        qparams = query[0]
+        for q in qparams:
+            if q == "range" or q == "exact":
+                if "field" in qparams[q]:
+                    if qparams[q]["field"] == "modDate" or qparams[q]["field"] == "creationDate" or qparams[q]["field"] == "importDate":
+                        if "value" in qparams[q] and self.isoDateCompiled.match(qparams[q]["value"]):
+                            qparams[q]["value"] = self._isoToMilliseconds(qparams[q]["value"])
+                        if "min" in qparams[q] and self.isoDateCompiled.match(qparams[q]["min"]):
+                            qparams[q]["min"] = self._isoToMilliseconds(qparams[q]["min"])
+                        if "max" in qparams[q] and self.isoDateCompiled.match(qparams[q]["max"]):
+                            qparams[q]["max"] = self._isoToMilliseconds(qparams[q]["max"])
+
+        context_data = [
+                        "asset.id",
+                        "asset.attributes",
+                        "asset.base",
+                        "asset.file",
+                        "asset.folders",
+                    ]
+        if complete:
+            context_data = context_data + ["asset.proxies", "asset.views", "asset.relatedAssets"]
         context = {
             'method': 'getAssetsByQuery',
             'params': [
@@ -15,20 +41,16 @@ class SearchMethods():
                         "startIndex": start,
                         "size": count
                     },
-                    "data": [
-                        "asset.id",
-                        "asset.attributes",
-                        "asset.base",
-                        "asset.file",
-                        "asset.proxies",
-                        "asset.views",
-                        "asset.relatedFolders",
-                        "asset.folders",
-                    ]
+                    "data": context_data
                 }
             ]
         }
-        return self.netxconn.execute(context)
+        results = self.netxconn.execute(context)
+        for r in results["results"]:
+            r["creationDate_iso"] = self._millisecondsToIso(r["creationDate"])
+            r["importDate_iso"] = self._millisecondsToIso(r["importDate"])
+            r["modDate_iso"] = self._millisecondsToIso(r["modDate"])
+        return results
         
     # This searches Solr fields and attributes.
     def raw_search(self, query_str, start=1, count=101):
@@ -106,5 +128,13 @@ class SearchMethods():
                 if (k.startswith('attribute') and k != "attributes"):
                     r.pop(k, None)
         return results
-        
-        
+
+
+    def _isoToMilliseconds(self, isoDate):
+        dt = datetime.datetime.strptime(isoDate, "%Y-%m-%dT%H:%M:%S")
+        return int(dt.timestamp() * 1000)
+
+    def _millisecondsToIso(self, milliseconds):
+        seconds = int(milliseconds / 1000)
+        dt = datetime.datetime.fromtimestamp(seconds)
+        return dt.isoformat()
