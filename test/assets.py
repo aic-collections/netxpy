@@ -21,4 +21,5 @@ class AssetTestCase(unittest.TestCase):
         
     def test_get_asset_attributes(self):
         results = self.netxapi.get_asset_attributes(362741)
-        self.assertEqual(results["assetId_pub"][0], '362741')
+        # self.assertEqual(results["assetId_pub"][0], '362741')
+        self.assertIn("LAKE UID", results)
