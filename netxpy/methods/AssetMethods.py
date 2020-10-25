@@ -19,10 +19,10 @@ class AssetMethods():
                 }
             }
         ]
-        results = self.sm.get_assets_by_query(query)
+        results = self.sm.get_assets_by_query(query, True)
         return results["results"][0]
 
-    def get_asset_attributes(self, asset_id, True):
+    def get_asset_attributes(self, asset_id):
         context = {
             'method': 'getAssetAttributes',
             'params': [
