@@ -22,7 +22,7 @@ class AssetMethods():
         results = self.sm.get_assets_by_query(query)
         return results["results"][0]
 
-    def get_asset_attributes(self, asset_id):
+    def get_asset_attributes(self, asset_id, True):
         context = {
             'method': 'getAssetAttributes',
             'params': [
