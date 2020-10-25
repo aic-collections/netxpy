@@ -15,14 +15,18 @@ class ResponseError(Exception):
     Exception used when we receive unexpected response from origin server.
     """
     def __init__(self, message):
-        # https://netx.artic.edu/external/api/json returned {'result': 'Access not allowed to object for the given caller', 'code': 3004, 'data': None, 'message': 'Access not allowed to object for the given caller'}, self.user=kford1, self.session_key=w8BYlsxDAuvfDJcTR3iLGQjjE
-        # print(message)
-        self.response = message[message.find('{'):message.rfind('}')] + '}'
-        self.response = self.response.replace("'", '"')
-        self.response = self.response.replace('None', 'null')
-        # print(self.response)
-        self.response = json.loads(self.response)
-        super().__init__(self.response)
+        if isinstance(message, requests.exceptions.ConnectTimeout):
+            self.response = json.loads('{"result": "Connection timeout", "code": 10001, "data": null, "message": "Connection timeout"}')
+            super().__init__(self.response)
+        else:
+            # https://netx.artic.edu/external/api/json returned {'result': 'Access not allowed to object for the given caller', 'code': 3004, 'data': None, 'message': 'Access not allowed to object for the given caller'}, self.user=kford1, self.session_key=w8BYlsxDAuvfDJcTR3iLGQjjE
+            # print(message)
+            self.response = message[message.find('{'):message.rfind('}')] + '}'
+            self.response = self.response.replace("'", '"')
+            self.response = self.response.replace('None', 'null')
+            # print(self.response)
+            self.response = json.loads(self.response)
+            super().__init__(self.response)
 
 class NetXConn:
     
