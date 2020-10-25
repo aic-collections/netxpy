@@ -9,7 +9,7 @@ setup(
     author = 'Kevin Ford',
     author_email = 'kford1@artic.edu',
     license = 'http://www.opensource.org/licenses/bsd-license.php',
-    packages = ['netxpy'],
+    packages = ['netxpy', 'netxpy.methods'],
     #install_requires = install_requires,
     description = 'Interact with NetX API',
     classifiers = [],
