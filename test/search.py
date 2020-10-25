@@ -38,3 +38,4 @@ class SearchTestCase(unittest.TestCase):
         ]
         results = self.netxapi.get_assets_by_query(query)
         self.assertGreater(results["size"], 10)
+
