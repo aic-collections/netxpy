@@ -64,7 +64,7 @@ class NetXConn:
             return_headers = {}
             with requests.get(url, stream=True, verify=True) as r:
                 r.raise_for_status()
-                if filename = "":
+                if filename == "":
                     content_disposition = r.headers["Content-Disposition"]
                     filename = content_disposition.split('filename=')[1].replace('"', '')
                 savefile = savedir + filename
