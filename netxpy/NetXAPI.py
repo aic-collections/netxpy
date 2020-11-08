@@ -12,11 +12,11 @@ from .methods.SearchMethods import SearchMethods
 class NetXAPI:
     
     def __init__(self, config):
-        config["apibase"] = config["netx"] + "/external/api/json"
+        config["apibase"] = config["host"] + "/external/api/json"
         if "appbase" not in config:
             # This is an override in case the address of NetX's internal
             # api changes and this library is not updated.
-            config["appbase"] = config["netx"] + "/x7/v1.2/json"
+            config["appbase"] = config["host"] + "/x7/v1.2/json"
         
         self.netxconn = NetXConn(config)
         self.am = AssetMethods(self.netxconn)

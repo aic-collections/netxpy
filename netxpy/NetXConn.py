@@ -59,7 +59,7 @@ class NetXConn:
     def download(self, path, savedir, filename):
         try:
             sessKey = self.session_key
-            url = self.config["netx"] + path + "?sessionKey=" + sessKey
+            url = self.config["host"] + path + "?sessionKey=" + sessKey
             # NOTE the stream=True parameter below
             return_headers = {}
             with requests.get(url, stream=True, verify=True) as r:
@@ -82,7 +82,7 @@ class NetXConn:
     def fetch(self, path):
         try:
             sessKey = self.session_key
-            url = self.config["netx"] + path + "?sessionKey=" + sessKey
+            url = self.config["host"] + path + "?sessionKey=" + sessKey
             response = self.sess.get(url, verify=True, timeout=self.timeout)
             return response
         except requests.exceptions.ConnectionError as err:

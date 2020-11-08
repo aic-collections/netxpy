@@ -1,5 +1,5 @@
 {
-    "netx": "https://netx.host",
+    "host": "https://netx.host",
     "user": "",
     "pass": ""
 }
