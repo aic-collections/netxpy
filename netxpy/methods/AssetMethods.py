@@ -1,3 +1,6 @@
+import platform
+import tempfile
+
 from .SearchMethods import SearchMethods
 
 class AssetMethods():
@@ -7,7 +10,19 @@ class AssetMethods():
         self.sm = SearchMethods(netxconn)
         return
     
-    def get_asset(self, asset_id):
+    def download_asset_binary(self, asset_id, savedir="", filename="", binary_type="original"):
+        if savedir == "":
+            if 'tmpdir' in self.netxconn.config:
+                savedir = self.netxconn.config["tmpdir"]
+            else:
+                tempdir = "/tmp" if platform.system() == "Darwin" else tempfile.gettempdir()
+                savedir = tempdir + '/'
+        return self.netxconn.download("/file/asset/" + str(asset_id) + "/" + binary_type + "/attachment", savedir, filename)
+        
+    def fetch_asset_binary(self, asset_id, binary_type="original"):
+        return self.netxconn.fetch("/file/asset/" + str(asset_id) + "/" + binary_type + "/attachment")
+    
+    def get_asset_metadata(self, asset_id):
         # This performs a raw search against the facetsearch
         # results = self.sm.search('assetId:' + str(asset_id))
         query = [

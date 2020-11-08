@@ -26,8 +26,14 @@ class NetXAPI:
 
 
     # Asset Methods
-    def get_asset(self, asset_id):
-        return self.am.get_asset(asset_id)
+    def download_asset_binary(self, asset_id, savedir="", filename="", binary_type="original"):
+        return self.am.download_asset_binary(asset_id, savedir, filename, binary_type)
+
+    def fetch_asset_binary(self, asset_id, binary_type="original"):
+        return self.am.fetch_asset_binary(asset_id, binary_type)
+        
+    def get_asset_metadata(self, asset_id):
+        return self.am.get_asset_metadata(asset_id)
         
     def get_asset_attributes(self, asset_id):
         return self.am.get_asset_attributes(asset_id)
@@ -45,7 +51,7 @@ class NetXAPI:
         
     
     # Search Methods
-    def get_assets_by_query(self, query):
+    def get_assets_by_query(self, query, complete=False, start=0, count=101):
         return self.sm.get_assets_by_query(query)
         
     def raw_search(self, query_str):

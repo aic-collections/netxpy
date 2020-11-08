@@ -54,6 +54,39 @@ class NetXConn:
         except ResponseError as err:
             raise
             # return err.response
+                
+    
+    def download(self, path, savedir, filename):
+        try:
+            sessKey = self.session_key
+            url = self.config["netx"] + path + "?sessionKey=" + sessKey
+            # NOTE the stream=True parameter below
+            return_headers = {}
+            with requests.get(url, stream=True, verify=True) as r:
+                r.raise_for_status()
+                content_disposition = r.headers["Content-Disposition"]
+                filename = content_disposition.split('filename=')[1].replace('"', '')
+                savefile = savedir + filename
+                r.headers["Location"] = "file://" + savefile
+                with open(savefile, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=8192): 
+                        # If you have chunk encoded response uncomment if
+                        # and set chunk_size parameter to None.
+                        #if chunk: 
+                        f.write(chunk)
+                return_headers = r.headers;
+            return return_headers
+        except requests.exceptions.ConnectionError as err:
+            raise ResponseError(err)
+                
+    def fetch(self, path):
+        try:
+            sessKey = self.session_key
+            url = self.config["netx"] + path + "?sessionKey=" + sessKey
+            response = self.sess.get(url, verify=True, timeout=self.timeout)
+            return response
+        except requests.exceptions.ConnectionError as err:
+            raise ResponseError(err)
         
     def login(self):
         """
