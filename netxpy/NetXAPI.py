@@ -52,7 +52,7 @@ class NetXAPI:
     
     # Search Methods
     def get_assets_by_query(self, query, complete=False, start=0, count=101):
-        return self.sm.get_assets_by_query(query)
+        return self.sm.get_assets_by_query(query, complete, start, count)
         
     def raw_search(self, query_str):
         return self.sm.raw_search(query_str)

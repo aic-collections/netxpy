@@ -32,7 +32,7 @@ class NetXConn:
     
     def __init__(self, config):
         self.config = config
-        self.timeout = 5
+        self.timeout = 10
         self.sess = requests.Session()
         return
     
