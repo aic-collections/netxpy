@@ -52,6 +52,28 @@ class SearchMethods():
             r["modDate_iso"] = self._millisecondsToIso(r["modDate"])
         return results
         
+    '''
+    def get_assets_from_solr(self, queryHuman="", queryRaw="", start=0, count=101):
+        qplus = "&fq=assetId:*&rows=" + str(count) + "&start=" + str(start)
+        q = "q=" + queryHuman + qplus
+        if queryRaw != "":
+            q = queryRaw + qplus
+        
+        assets = []
+        results = self.netxconn.solrrequest(q)
+        for d in results["response"]["docs"]:
+            attributes = {}
+            folders = {}
+            file = {}
+        '/''
+        for r in results["results"]:
+            r["creationDate_iso"] = self._millisecondsToIso(r["creationDate"])
+            r["importDate_iso"] = self._millisecondsToIso(r["importDate"])
+            r["modDate_iso"] = self._millisecondsToIso(r["modDate"])
+        '/''
+        return results
+    '''
+        
     # This searches Solr fields and attributes.
     def raw_search(self, query_str, start=1, count=101):
         ["sw6wqNxAlM2B87iepfR4EhXS6","fileName",0,0,[8],[4],[0],["modDate:[20200927170000 TO 20200927999999]"],[""],[""],1,41,[],"hybrid"]

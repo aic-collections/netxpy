@@ -33,6 +33,8 @@ class NetXConn:
     def __init__(self, config):
         self.config = config
         self.timeout = 10
+        if 'timeout' in config:
+            self.timeout = config.timeout
         self.sess = requests.Session()
         return
     
@@ -108,7 +110,7 @@ class NetXConn:
     
     # Thank you:
     # https://github.com/ic-labs/python-netx/blob/master/netx/netx.py
-    def request(self, context, retries=0):
+    def request(self, context, retries=5):
         """
         Wraps HTTP POST request with the specified data. Returns dict decoded
         from the JSON response.
@@ -133,8 +135,6 @@ class NetXConn:
 
         # Retry if we get intermittent connection error
         # self._requests_limiter()
-        #print("trying post")
-        #print(data)
         try:
             response = self.sess.post(url, headers=headers, data=data, verify=True, timeout=self.timeout)
         except requests.exceptions.ConnectionError as err:
@@ -170,3 +170,12 @@ class NetXConn:
                 raise ResponseError(msg)
 
         return response
+        
+    def solrrequest(self, query):
+        try:
+            sessKey = self.session_key
+            url = self.config["solr"] + "select/?" + query
+            response = self.sess.get(url, timeout=self.timeout)
+            return response.json()
+        except requests.exceptions.ConnectionError as err:
+            raise ResponseError(err)
