@@ -34,7 +34,7 @@ class NetXConn:
         self.config = config
         self.timeout = 10
         if 'timeout' in config:
-            self.timeout = config.timeout
+            self.timeout = config["timeout"]
         self.sess = requests.Session()
         return
     
