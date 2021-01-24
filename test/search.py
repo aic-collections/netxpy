@@ -38,4 +38,8 @@ class SearchTestCase(unittest.TestCase):
         ]
         results = self.netxapi.get_assets_by_query(query)
         self.assertGreater(results["size"], 10)
+        
+    def test_solr_search(self):
+        results = self.netxapi.get_assets_from_solr("assetId:188930")
+        self.assertEqual(results["results"][0]["id"], 188930)
 
