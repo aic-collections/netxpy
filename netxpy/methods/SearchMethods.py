@@ -118,7 +118,12 @@ class SearchMethods():
             asset["attributes"] = attributes
                 
             assets.append(asset)
-        return assets
+        
+        asset_results = {
+            "size": results["response"]["numFound"],
+            "results": assets
+        }
+        return asset_results
         
     # This searches Solr fields and attributes.
     def raw_search(self, query_str, start=1, count=101):
