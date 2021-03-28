@@ -67,8 +67,17 @@ class NetXConn:
             with requests.get(url, stream=True, verify=True) as r:
                 r.raise_for_status()
                 if filename == "":
-                    content_disposition = r.headers["Content-Disposition"]
-                    filename = content_disposition.split('filename=')[1].replace('"', '')
+                    if "Content-Disposition" in r.headers:
+                        content_disposition = r.headers["Content-Disposition"]
+                        filename = content_disposition.split('filename=')[1].replace('"', '')
+                    else:
+                        path_parts = path.split('/')
+                        assetid = path_parts[2]
+                        if path_parts[3] == "view":
+                            view = path_parts[3]
+                        else:
+                            view = path_parts[3] 
+                        filename = view + '_' + assetid + '.jpg'
                 savefile = savedir + filename
                 r.headers["Location"] = "file://" + savefile
                 with open(savefile, 'wb') as f:

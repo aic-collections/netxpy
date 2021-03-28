@@ -5,4 +5,5 @@ dist
 test/*.json
 
 tests
+tmp
 create_palb_urls
